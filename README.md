@@ -84,7 +84,7 @@ payload='A'*0x40(覆盖esp指向的地址到ebp指向地址之间的内容)+'A'*
 | --- | --- | --- | --- |---|
 | Problem1 | 无 | 无 | 无 |输出'Yes!I like ICS!'|
 | Problem2 | 无 | 注意传参方法与题目本身的代码片段 | 无 |输出'Yes!I like ICS!'|
-| Problem3 | 无 | 注意你能够使用的字节长度|problem3在后面我们的单独说 | 输出幸运数字'114' |
+| Problem3 | 无 | 注意你能够使用的字节长度|如果你要使用可写栈的方法，请使用echo 0 | sudo tee /proc/sys/kernel/randomize_va_space暂时关闭内核的随机化| 输出幸运数字'114' |
 | Problem4 | Canary保护 | 想一想 你真的需要写代码吗 | 由于题目较为简单，请在报告中明确指出canary保护的机制以及是如何体现在汇编代码中的 |给足原石个数|
 
 ## 注意事项

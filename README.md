@@ -50,7 +50,8 @@ get(s);
 但是如果你想要搞破坏的话，你可以通过设计你的payload来让函数最后跳转到别的函数上去，即修改retaddr的内容
 比如说你的payload是：
 ```
-payload='A'*0x40(覆盖esp指向的地址到ebp指向地址之间的内容)+'A'*4(覆盖saved ebp内容)+0xdeadbeef(覆盖retaddr，当函数执行结束后会跳转到0xdeadbeef执行下一条指令)
+payload='A'*0x40(覆盖esp指向的地址到ebp指向地址之间的内容)+'A'*4(覆盖saved ebp内容)+0xdeadbeef
+(覆盖retaddr，当函数执行结束后会跳转到0xdeadbeef执行下一条指令)
 ```
 请想一下，如果0xdeadbeef上函数是system('bin/sh')这种系统函数调用的话，那岂不是就可以劫持到你电脑的权限了？（实际上第一代蠕虫病毒就是用的栈溢出的漏洞）
 ### 攻击手段
@@ -65,9 +66,9 @@ payload='A'*0x40(覆盖esp指向的地址到ebp指向地址之间的内容)+'A'*
 - 其他工具：gdb, objdump
 
 ## 一般的实验步骤
-我们拿problem1举例子
+以problem1为例
 1. 首先你需要使用objdump去获得problem1的实验代码，并认真阅读其中的关键部分
-2. 确定好该题目要求你做什么(我们后面会介绍)，并设计相关payload输入来完成实验
+2. 确定好该题目要求你做什么，并设计相关payload输入来完成实验
      1) 你需要将你的payload保存为一个.txt文件(比如文件名为ans1.txt)，且.txt文件的内容是一个二进制流，也就是你要放在栈上的内容。之后运行./problem1 ans1.txt，便可以看到你的输出
      2) 这里提供一种将保存二进制流文件的方法，你需要使用python去运行下面的代码(注意 这只是一种写法，你可以按照自己的习惯去写)
 ```
@@ -86,17 +87,20 @@ print("Payload written to ans.txt")
 | --- | --- | --- | --- |---|
 | Problem1 | 无 | 无 | 无 |输出'Yes!I like ICS!'|
 | Problem2 | Nxenabled | 注意传参方法与题目本身的代码片段 | 无 |输出'Yes!I like ICS!'|
-| Problem3 | 无 | 注意你能够使用的字节长度|如果你要使用可写栈的方法，请暂时关闭内核的随机化。除此之外该题目在gdb模式下显示结果正确也视作过关| 输出幸运数字'114' |
+| Problem3 | 无 | 注意你能够使用的字节长度|如果你要使用可写栈的方法，请[暂时关闭内核的随机化](###暂时关闭内核全局栈随机化)。除此之外该题目在gdb模式下显示结果正确也视作过关| 输出幸运数字'114' |
 | Problem4 | Canary保护 | 想一想 你真的需要写代码吗 | 由于题目较为简单，请在报告中明确指出canary保护的机制以及是如何体现在汇编代码中的 |给足原石个数|
+
+### 暂时关闭内核全局栈随机化
 ```
 #如果problem3使用可读写栈来攻击的话，请注意
 echo 0 | sudo tee /proc/sys/kernel/randomize_va_space #暂时关闭内核全局栈随机化
 #如果确定自己的payload没有问题，可以使用下面的指令重新编译problem3.c然后作答，在gdb模式下显示结果正确即可
 gcc -g  -fno-stack-protector -z execstack -no-pie -z norelro -o problem3 problem3.c
 ```
+
 ## 如何提交
-1. 这次实验只需要提交报告就行，报告格式需按照./reports中的报告格式提交，需要提交转换后的pdf文件以及md文件，并放在./reports文件夹下。
-2. 除此之外，你需要在报告中体现你每道题目的思路是什么，payload是什么，攻击后的输出是什么。problem4请务必体现出程序是在哪里设置canary保护的。
+1. 这次实验只需要提交报告。报告格式需按照./reports中的格式，将md文件和转换后的pdf文件放在./reports文件夹下提交。
+2. 你需要在报告中体现你每道题目的思路是什么，payload是什么，攻击后的输出是什么。problem4请务必指出出程序是在哪里设置canary保护的。
 
 ## 注意事项
 - 不要自己尝试在自己的系统上做更多超出题目本身的操作，这并不安全。

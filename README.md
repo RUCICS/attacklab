@@ -65,6 +65,15 @@ payload='A'*0x40(覆盖esp指向的地址到ebp指向地址之间的内容)+'A'*
 - 编译器：GCC
 - 其他工具：gdb, objdump
 
+## 实验启动
+```
+git clone git@github.com:RUCICS/attacklab.git
+cd attacklab
+chmod +x problem1
+chmod +x problem2
+chmod +x problem3
+```
+
 ## 一般的实验步骤
 以problem1为例
 1. 首先你需要使用objdump去获得problem1的实验代码，并认真阅读其中的关键部分

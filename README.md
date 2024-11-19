@@ -70,17 +70,17 @@ payload='A'*0x40(覆盖esp指向的地址到ebp指向地址之间的内容)+'A'*
 2. 确定好该题目要求你做什么(我们后面会介绍)，并设计相关payload输入来完成实验
      1) 你需要将你的payload保存为一个.txt文件(比如文件名为ans1.txt)，且.txt文件的内容是一个二进制流，也就是你要放在栈上的内容。之后运行./problem1 ans1.txt，便可以看到你的输出
      2) 这里提供一种将保存二进制流文件的方法，你需要使用python去运行下面的代码(注意 这只是一种写法，你可以按照自己的习惯去写)
-        ```
-        #比如你发现你可以使用'A'去覆盖8个字节，然后跳转到0x114514地址就可以完成任务，那么你可以这么写你的payload并保存
-        padding = b"A" * 16
-        #ret_address = b"\x0a\x12\x40\x00\x00\x00\x00\x00"
-        func1_address = b"\x14\x45\x11\x00\x00\x00\x00\x00"  # 小端地址
-        payload = padding+ func1_addr ess
-        # Write the payload to a file
-        with open("ans.txt", "wb") as f:
-            f.write(payload)
-        print("Payload written to ans.txt") 
-        ```
+```
+#比如你发现你可以使用'A'去覆盖8个字节，然后跳转到0x114514地址就可以完成任务，那么你可以这么写你的payload并保存
+padding = b"A" * 16
+#ret_address = b"\x0a\x12\x40\x00\x00\x00\x00\x00"
+func1_address = b"\x14\x45\x11\x00\x00\x00\x00\x00"  # 小端地址
+payload = padding+ func1_addr ess
+# Write the payload to a file
+with open("ans.txt", "wb") as f:
+    f.write(payload)
+print("Payload written to ans.txt") 
+```
 ## 题目介绍
 | 题目名称 | 保护类型 | 提示 | 注意事项 |输出要求|
 | --- | --- | --- | --- |---|

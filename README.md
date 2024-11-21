@@ -25,8 +25,8 @@
 3. **栈帧覆盖**：过长的数据将覆盖栈上的其他信息，包括函数的返回地址。
 4. **控制流劫持**：攻击者可以通过精心构造的输入来覆盖返回地址，使得函数返回时跳转到攻击者指定的代码位置，通常是恶意代码所在的位置。
 ### 栈溢出的一个简单例子
-```
-#比方说现在有人向你暴露了一个操作接口，你还通过一些手段知道了这个操作背后是这样的代码
+```c
+// 比方说现在有人向你暴露了一个操作接口，你还通过一些手段知道了这个操作背后是这样的代码
 char s[24];
 get(s);
 ```
@@ -67,24 +67,24 @@ payload='A'*0x40(覆盖esp指向的地址到ebp指向地址之间的内容)+'A'*
 - 其他工具：gdb, objdump
 
 ## 实验启动
-```
+```shell
 git clone git@github.com:RUCICS/attacklab.git
 cd attacklab
-chmod +x problem1
-chmod +x problem2
-chmod +x problem3
+# let's get started
 ```
 
 ## 一般的实验步骤
+
 以problem1为例
-1. 首先你需要使用objdump去获得problem1的实验代码，并认真阅读其中的关键部分
+
+1. 首先你需要使用`objdump -d file`去获得 problem1 的实验代码，并认真阅读其中的关键部分
 2. 确定好该题目要求你做什么，并设计相关payload输入来完成实验
      1) 你需要将你的payload保存为一个.txt文件(比如文件名为ans1.txt)，且.txt文件的内容是一个二进制流，也就是你要放在栈上的内容。之后运行./problem1 ans1.txt，便可以看到你的输出
      2) 这里提供一种将保存二进制流文件的方法，你需要使用python去运行下面的代码(注意 这只是一种写法，你可以按照自己的习惯去写)
-```
-#比如你发现你可以使用'A'去覆盖8个字节，然后跳转到0x114514地址就可以完成任务，那么你可以这么写你的payload并保存
+```python
+# 比如你发现你可以使用'A'去覆盖8个字节，然后跳转到0x114514地址就可以完成任务，那么你可以这么写你的payload并保存
 padding = b"A" * 16
-#ret_address = b"\x0a\x12\x40\x00\x00\x00\x00\x00"
+# ret_address = b"\x0a\x12\x40\x00\x00\x00\x00\x00"
 func1_address = b"\x14\x45\x11\x00\x00\x00\x00\x00"  # 小端地址
 payload = padding+ func1_addr ess
 # Write the payload to a file

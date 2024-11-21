@@ -96,16 +96,9 @@ print("Payload written to ans.txt")
 | --- | --- | --- | --- |---|
 | Problem1 | 无 | 无 | 无 |输出'Yes!I like ICS!'|
 | Problem2 | Nxenabled | 注意传参方法与题目本身的代码片段 | 无 |输出'Yes!I like ICS!'|
-| Problem3 | 无 | 注意你能够使用的字节长度|如果你要使用可写栈的方法，请[暂时关闭内核的随机化](###暂时关闭内核全局栈随机化)。除此之外该题目在gdb模式下显示结果正确也视作过关| 输出幸运数字'114' |
+| Problem3 | 无 | 注意你能够使用的字节长度，想一下如果你的栈是动态变化的，什么是不变的？|无| 输出幸运数字'114' |
 | Problem4 | Canary保护 | 想一想 你真的需要写代码吗 | 由于题目较为简单，请在报告中明确指出canary保护的机制以及是如何体现在汇编代码中的 |给足原石个数|
 
-### 暂时关闭内核全局栈随机化
-```
-#如果problem3使用可读写栈来攻击的话，请注意
-echo 0 | sudo tee /proc/sys/kernel/randomize_va_space #暂时关闭内核全局栈随机化
-#如果确定自己的payload没有问题，可以使用下面的指令重新编译problem3.c然后作答，在gdb模式下显示结果正确即可
-gcc -g  -fno-stack-protector -z execstack -no-pie -z norelro -o problem3 problem3.c
-```
 
 ## 如何提交
 1. 这次实验只需要提交报告。报告格式需按照./reports中的格式，将md文件和转换后的pdf文件放在./reports文件夹下提交。

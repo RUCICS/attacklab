@@ -51,6 +51,7 @@ get(s);
 比如说你的payload是：
 ```
 payload='A'*0x40(覆盖esp指向的地址到ebp指向地址之间的内容)+'A'*4(覆盖saved ebp内容)+0xdeadbeef
+#在python中,payload的形式更有可能是b'A'*0x44+b'\xef\xbe\xad\xde'，在后面会解释为什么格式是这个样子。
 (覆盖retaddr，当函数执行结束后会跳转到0xdeadbeef执行下一条指令)
 #payload指的是你的输入内容，后面我们将延续此含义
 ```
@@ -84,13 +85,17 @@ cd attacklab
 ```python
 # 比如你发现你可以使用'A'去覆盖8个字节，然后跳转到0x114514地址就可以完成任务，那么你可以这么写你的payload并保存
 padding = b"A" * 16
-# ret_address = b"\x0a\x12\x40\x00\x00\x00\x00\x00"
 func1_address = b"\x14\x45\x11\x00\x00\x00\x00\x00"  # 小端地址
 payload = padding+ func1_addr ess
 # Write the payload to a file
 with open("ans.txt", "wb") as f:
     f.write(payload)
-print("Payload written to ans.txt") 
+print("Payload written to ans.txt")
+#解释一下，为什么要将函数地址写成这个样子
+#比方说你希望将字节0xA放在栈上时，如果你的txt文件是可见字符'A'的话，实际上放到栈上的是字节0x41(可见字符'A'对应的ASCll码值)
+#但很明显，这不符合我们的预期，因此需要用关键字b去保证是0xA，比如b'A'，此时就是0xA，而不是可见字符'A'
+#再之后就是地址的问题了，比如地址0x114514,由于大部分人的机器是小端存储，在python中最低有效字节应该放在前面，因此最后结果为上面代码的结果
+#当然，如果你不喜欢python的话，可以尝试其他多种写法，只需要保证结果正确就行。
 ```
 ## 题目介绍
 | 题目名称 | 保护类型 | 提示 | 注意事项 |输出要求|
@@ -98,7 +103,7 @@ print("Payload written to ans.txt")
 | Problem1 | 无 | 无 | 无 |输出'Yes!I like ICS!'|
 | Problem2 | Nxenabled | 注意传参方法与题目本身的代码片段 | 无 |输出'Yes!I like ICS!'|
 | Problem3 | 栈随机化 | 注意你能够使用的字节长度，想一下如果你的栈是动态变化的，什么是不变的？|无| 输出幸运数字'114' |
-| Problem4 | Canary保护 | 想一想 你真的需要写代码吗 | 由于题目较为简单，请在报告中明确指出canary保护的机制以及是如何体现在汇编代码中的 |给足原石个数|
+| Problem4 | Canary保护 | 想一想 你真的需要写代码吗 | 由于题目较为简单，请在报告中明确指出canary保护的机制以及是如何体现在汇编代码中的 |输出通关提示|
 
 
 ## 如何提交

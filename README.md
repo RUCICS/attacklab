@@ -118,3 +118,4 @@ print("Payload written to ans.txt")
 - 关于题目本身的思路请不要询问助教，你需要保证是自己独立完成实验。
 - 如果思路出现堵塞或者无法理解题目，请移步到CTF wiki查看pwn题目中stack overflow的做法（https://ctf-wiki.org/pwn/linux/user-mode/stackoverflow/x86/stack-intro/）。
 - ddl为一周左右，毕竟是baby-attack，相比于原汁原味的attacklab难度降低很多了。
+- 实验流程同datalab保持一致，你需要从obe上接受作业链接。
